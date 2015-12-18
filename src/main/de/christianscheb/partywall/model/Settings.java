@@ -1,15 +1,16 @@
 package de.christianscheb.partywall.model;
 
-import javafx.scene.paint.Color;
-
 public class Settings {
 
     private ProjectorSettings projectorSettings;
     private String tickerMessage = null;
     private boolean projectorWindowStarted = false;
+    private TickerStyle tickerStyle;
+
 
     public Settings() {
         projectorSettings = new ProjectorSettings(0, 0, 1920, 1080);
+        tickerStyle = new TickerStyle();
     }
 
     public ProjectorSettings getProjectorSettings() {
@@ -36,11 +37,11 @@ public class Settings {
         this.projectorWindowStarted = projectorWindowStarted;
     }
 
-    public Color getTickerBackgroundColor() {
-        return Color.color(1, 1, 1);
+    public TickerStyle getTickerStyle() {
+        return tickerStyle;
     }
 
-    public Color getTickerTextColor() {
-        return Color.color(0, 0, 0);
+    public void setTickerStyle(TickerStyle tickerStyle) {
+        this.tickerStyle = tickerStyle;
     }
 }

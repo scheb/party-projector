@@ -3,13 +3,15 @@ package de.christianscheb.partywall.controller;
 import de.christianscheb.partywall.model.ProjectorSettings;
 import de.christianscheb.partywall.model.Settings;
 import de.christianscheb.partywall.model.SettingsModel;
-import de.christianscheb.partywall.view.ProjectorView;
+import de.christianscheb.partywall.model.TickerStyle;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,39 +19,18 @@ import java.util.ResourceBundle;
 public class SettingsController implements Initializable {
 
     private Settings settings;
-
-    @FXML
-    public Spinner posX;
-
-    @FXML
-    public Spinner posY;
-
-    @FXML
-    public Spinner sizeWidth;
-
-    @FXML
-    public Spinner sizeHeight;
-
-    @FXML
-    public Button projectorUpdateButton;
-
-    @FXML
-    public TextField messageTickerField;
-
-    @FXML
-    public Button messageSendButton;
-
-    @FXML
-    private Button toggleProjectorButton;
-
-    @FXML
-    private Button exitButton;
-
-    @FXML
-    public ColorPicker messageBackgroundColor;
-
-    @FXML
-    public ColorPicker messageTextColor;
+    private SettingsEventListener eventListener;
+    @FXML private Spinner posX;
+    @FXML private Spinner posY;
+    @FXML private Spinner sizeWidth;
+    @FXML private Spinner sizeHeight;
+    @FXML private Button projectorUpdateButton;
+    @FXML private TextField messageTickerField;
+    @FXML private Button messageSendButton;
+    @FXML private Button toggleProjectorButton;
+    @FXML private Button exitButton;
+    @FXML private ColorPicker messageBackgroundColor;
+    @FXML private ColorPicker messageTextColor;
 
     public SettingsController(SettingsModel settingsModel) {
         settings = settingsModel.getSettings();
@@ -57,6 +38,15 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        configureView();
+        registerEventHandlers();
+    }
+
+    public void addEventListener(SettingsEventListener eventListener) {
+        this.eventListener = eventListener;
+    }
+
+    private void configureView() {
         configureFocusListener(posX);
         configureFocusListener(posY);
         configureFocusListener(sizeWidth);
@@ -75,10 +65,10 @@ public class SettingsController implements Initializable {
             }
         });
 
-        messageBackgroundColor.setValue(settings.getTickerBackgroundColor());
-        messageTextColor.setValue(settings.getTickerTextColor());
+        messageBackgroundColor.setValue(settings.getTickerStyle().getBackgroundColor());
+        messageTextColor.setValue(settings.getTickerStyle().getTextColor());
 
-        updateProjectorButtons();
+        updateProjectorButton();
     }
 
     private void configureFocusListener(Spinner spinner) {
@@ -87,86 +77,81 @@ public class SettingsController implements Initializable {
                 Platform.runLater(() -> spinner.getEditor().selectAll());
             }
         });
+
+        // Commit values spinner after value changed in the text field
+        spinner.getEditor().focusedProperty().addListener(o -> {
+            if (!spinner.getEditor().isFocused()) {
+                commitEditorText(spinner);
+            }
+        });
     }
 
-    public void updateProjectorButtons() {
+    private <T> void commitEditorText(Spinner<T> spinner) {
+        if (!spinner.isEditable()) return;
+        String text = spinner.getEditor().getText();
+        SpinnerValueFactory<T> valueFactory = spinner.getValueFactory();
+        if (valueFactory != null) {
+            StringConverter<T> converter = valueFactory.getConverter();
+            if (converter != null) {
+                T value = converter.fromString(text);
+                valueFactory.setValue(value);
+            }
+        }
+    }
+
+    private void updateProjectorButton() {
         boolean projectorStarted = settings.isProjectorWindowStarted();
         toggleProjectorButton.setText(projectorStarted ? "Stop Projector" : "Start Projector");
     }
-//
-//    public ProjectorPosition getProjectorPosition() {
-//        return new ProjectorPosition(
-//                (int) posX.getValue(),
-//                (int) posY.getValue(),
-//                (int) windowWidth.getValue(),
-//                (int) windowHeight.getValue()
-//        );
-//    }
-//
-//    private void createSettingsWindow() {
-//        settingsView = new SettingsView(settingsModel);
-//        settingsView.setLocationRelativeTo(settingsView);
-//
-//        settingsView.registerSetTickerMessageListener(new SetTickerMessageListener());
-//        settingsView.registerUpdateProjectorWindowListener(new UpdateProjectorListener());
-//        settingsView.registerExitListener(new ExitListener());
-//        settingsView.registerStartStopProjectorWindowListener(new StartStopProjectorWindowListener());
-//
-//        settingsView.setVisible(true);
-//    }
-//
-//    private void startProjectorWindow() {
-//        projectorView = new ProjectorView();
-//        positionProjectorWindow();
-//        projectorView.setVisible(true);
-//    }
-//
-//    private void stopProjectorWindow() {
-//        projectorView.dispose();
-//        projectorView = null;
-//    }
-//
-//    private void positionProjectorWindow() {
-//        ProjectorSettings projectorPosition = settingsModel.getProjectorConfig();
-//        projectorView.setLocation(projectorPosition.getPosX(), projectorPosition.getPosY());
-//        projectorView.setSize(projectorPosition.getWidth(), projectorPosition.getHeight());
-//    }
-//
-//    class UpdateProjectorListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            settingsModel.setProjectorConfig(settingsView.getProjectorConfig());
-//            if (settingsModel.isProjectorWindowStarted()) {
-//                positionProjectorWindow();
-//            }
-//        }
-//    }
-//
-//    class StartStopProjectorWindowListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            settingsModel.setProjectorConfig(settingsView.getProjectorConfig());
-//            settingsModel.setProjectorWindowStarted(!settingsModel.isProjectorWindowStarted());
-//            settingsView.updateProjectorButtons();
-//            if (settingsModel.isProjectorWindowStarted()) {
-//                startProjectorWindow();
-//            } else {
-//                stopProjectorWindow();
-//            }
-//        }
-//    }
-//
-//    class SetTickerMessageListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            settingsModel.setTickerMessage(settingsView.getTickerMessage());
-//        }
-//    }
-//
-//    class ExitListener implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            System.exit(0);
-//        }
-//    }
+
+    private void registerEventHandlers() {
+        posX.valueProperty().addListener(o -> updateProjectorSettings());
+        posY.valueProperty().addListener(o -> updateProjectorSettings());
+        sizeWidth.valueProperty().addListener(o -> updateProjectorSettings());
+        sizeHeight.valueProperty().addListener(o -> updateProjectorSettings());
+        messageTickerField.textProperty().addListener(o -> updateTickerMessage());
+        messageBackgroundColor.valueProperty().addListener(o -> updateTickerColor());
+        messageTextColor.valueProperty().addListener(o -> updateTickerColor());
+    }
+
+    private void updateProjectorSettings() {
+        ProjectorSettings projectorSettings = new ProjectorSettings(
+            (int) posX.getValue(),
+            (int) posY.getValue(),
+            (int) sizeWidth.getValue(),
+            (int) sizeHeight.getValue()
+        );
+        settings.setProjectorSettings(projectorSettings);
+        if (eventListener != null) {
+            eventListener.onProjectorSettingsUpdated(projectorSettings);
+        }
+    }
+
+    private void updateTickerMessage() {
+        String text = messageTickerField.getText();
+        settings.setTickerMessage(text);
+        if (eventListener != null) {
+            eventListener.onTickerMessageUpdated(text);
+        }
+    }
+
+    private void updateTickerColor() {
+        TickerStyle tickerStyle = new TickerStyle(messageBackgroundColor.getValue(), messageTextColor.getValue());
+        if (eventListener != null) {
+            eventListener.onTickerStyleUpdated(tickerStyle);
+        }
+    }
+
+    public void onToggleProjector(ActionEvent actionEvent) {
+        boolean projectorStarted = !settings.isProjectorWindowStarted();
+        settings.setProjectorWindowStarted(projectorStarted);
+        if (eventListener != null) {
+            eventListener.onToggleProjector(projectorStarted);
+        }
+        toggleProjectorButton.setText(projectorStarted ? "Close Projector" : "Start Projector");
+    }
+
+    public void onExit(ActionEvent actionEvent) {
+        System.exit(0);
+    }
 }

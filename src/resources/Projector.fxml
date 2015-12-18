@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<BorderPane style="-fx-background-color: transparent;" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/null"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <Pane BorderPane.alignment="TOP_CENTER" fx:id="tickerPane"/>
+        <Pane BorderPane.alignment="CENTER" fx:id="picturePane"/>
+    </top>
+</BorderPane>

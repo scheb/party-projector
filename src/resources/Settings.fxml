@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -60,24 +61,11 @@
                 <VBox prefHeight="0.0" prefWidth="598.0">
                     <children>
                         <Label text="Enter a message to show up in the ticker regularly:" />
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" />
-                                <ColumnConstraints hgrow="NEVER" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints />
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <TextField fx:id="messageTickerField" />
-                                <Button fx:id="messageSendButton" mnemonicParsing="false" text="Send" GridPane.columnIndex="1">
-                                    <GridPane.margin>
-                                        <Insets left="10.0" />
-                                    </GridPane.margin>
-                                </Button>
-                            </children>
-                        </GridPane>
+                          <TextField fx:id="messageTickerField">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </TextField>
                   <GridPane>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="40.0" />
@@ -101,8 +89,8 @@
         </TitledPane>
         <ButtonBar prefHeight="38.0" prefWidth="600.0">
             <buttons>
-                <Button fx:id="toggleProjectorButton" mnemonicParsing="false" text="Start Projector" />
-                <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
+                <Button fx:id="toggleProjectorButton" mnemonicParsing="false" onAction="#onToggleProjector" prefWidth="110.0" text="Start Projector" />
+                <Button fx:id="exitButton" cancelButton="true" mnemonicParsing="false" onAction="#onExit" text="Exit" />
             </buttons>
             <padding>
                 <Insets right="10.0" />
