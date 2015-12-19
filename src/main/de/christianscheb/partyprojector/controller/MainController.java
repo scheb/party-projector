@@ -24,7 +24,7 @@ public class MainController implements SettingsEventListener {
     public MainController(Stage primaryStage, SettingsModel settingsModel) {
         this.primaryStage = primaryStage;
         settings = settingsModel.getSettings();
-        settingsController = new SettingsController(settingsModel);
+        settingsController = new SettingsController(settingsModel.getSettings());
         settingsController.addEventListener(this);
         projectorController = new ProjectorController();
     }
@@ -85,7 +85,6 @@ public class MainController implements SettingsEventListener {
 
     @Override
     public void onProjectorSettingsUpdated(ProjectorSettings projectorSettings) {
-        System.out.println("onProjectorSettingsUpdated");
         if (projectorStage == null) {
             return;
         }
@@ -95,21 +94,19 @@ public class MainController implements SettingsEventListener {
 
     @Override
     public void onTickerMessageUpdated(String text) {
-        System.out.println("onTickerMessageUpdated");
         if (projectorStage == null) {
             return;
         }
 
-        //TODO: change ticker message
+        projectorController.setTickerMessage(text);
     }
 
     @Override
     public void onTickerStyleUpdated(TickerStyle tickerStyle) {
-        System.out.println("onTickerStyleUpdated");
         if (projectorStage == null) {
             return;
         }
 
-        //TODO: change ticker style
+        projectorController.setTickerStyle(tickerStyle);
     }
 }

@@ -2,7 +2,6 @@ package de.christianscheb.partyprojector.controller;
 
 import de.christianscheb.partyprojector.model.ProjectorSettings;
 import de.christianscheb.partyprojector.model.Settings;
-import de.christianscheb.partyprojector.model.SettingsModel;
 import de.christianscheb.partyprojector.model.TickerStyle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -32,8 +31,8 @@ public class SettingsController implements Initializable {
     @FXML private ColorPicker messageBackgroundColor;
     @FXML private ColorPicker messageTextColor;
 
-    public SettingsController(SettingsModel settingsModel) {
-        settings = settingsModel.getSettings();
+    public SettingsController(Settings settings) {
+        this.settings = settings;
     }
 
     @Override
