@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class PartyWallController implements SettingsEventListener {
+public class MainController implements SettingsEventListener {
 
     private final Stage primaryStage;
     private final Settings settings;
@@ -21,7 +21,7 @@ public class PartyWallController implements SettingsEventListener {
     private ProjectorController projectorController;
     private Stage projectorStage;
 
-    public PartyWallController(Stage primaryStage, SettingsModel settingsModel) {
+    public MainController(Stage primaryStage, SettingsModel settingsModel) {
         this.primaryStage = primaryStage;
         settings = settingsModel.getSettings();
         settingsController = new SettingsController(settingsModel);

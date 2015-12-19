@@ -1,8 +1,6 @@
 package de.christianscheb.partywall;
 
-import de.christianscheb.partywall.controller.PartyWallController;
-import de.christianscheb.partywall.controller.SettingsController;
-import de.christianscheb.partywall.controller.SettingsEventListener;
+import de.christianscheb.partywall.controller.MainController;
 import de.christianscheb.partywall.model.SettingsModel;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,13 +10,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class PartyWall extends Application {
+public class PartyProjector extends Application {
 
     public static final String APPLICATION_TITLE = "Party Wall";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        PartyWallController controller = new PartyWallController(primaryStage, new SettingsModel());
+        MainController controller = new MainController(primaryStage, new SettingsModel());
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Settings.fxml"));
         loader.setController(controller.getSettingsController());
         Parent root = loader.load();
