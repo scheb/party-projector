@@ -1,5 +1,5 @@
-scheb/partywall
-===============
+scheb/party-projector
+=====================
 
 Display messages and pictures from party guests on a projector screen.
 
