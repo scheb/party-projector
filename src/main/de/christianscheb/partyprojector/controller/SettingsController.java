@@ -137,6 +137,7 @@ public class SettingsController implements Initializable {
 
     private void updateTickerColor() {
         TickerStyle tickerStyle = new TickerStyle(messageBackgroundColor.getValue(), messageTextColor.getValue());
+        settings.setTickerStyle(tickerStyle);
         if (eventListener != null) {
             eventListener.onTickerStyleUpdated(tickerStyle);
         }
@@ -152,6 +153,6 @@ public class SettingsController implements Initializable {
     }
 
     public void onExit(ActionEvent actionEvent) {
-        System.exit(0);
+        Platform.exit();
     }
 }
