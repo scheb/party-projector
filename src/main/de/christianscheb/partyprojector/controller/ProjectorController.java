@@ -1,4 +1,4 @@
-package de.christianscheb.partywall.controller;
+package de.christianscheb.partyprojector.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;

@@ -1,7 +1,7 @@
-package de.christianscheb.partywall;
+package de.christianscheb.partyprojector;
 
-import de.christianscheb.partywall.controller.MainController;
-import de.christianscheb.partywall.model.SettingsModel;
+import de.christianscheb.partyprojector.controller.MainController;
+import de.christianscheb.partyprojector.model.SettingsModel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

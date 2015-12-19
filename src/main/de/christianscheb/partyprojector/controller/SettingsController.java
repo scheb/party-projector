@@ -1,9 +1,9 @@
-package de.christianscheb.partywall.controller;
+package de.christianscheb.partyprojector.controller;
 
-import de.christianscheb.partywall.model.ProjectorSettings;
-import de.christianscheb.partywall.model.Settings;
-import de.christianscheb.partywall.model.SettingsModel;
-import de.christianscheb.partywall.model.TickerStyle;
+import de.christianscheb.partyprojector.model.ProjectorSettings;
+import de.christianscheb.partyprojector.model.Settings;
+import de.christianscheb.partyprojector.model.SettingsModel;
+import de.christianscheb.partyprojector.model.TickerStyle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package de.christianscheb.partywall.model;
+package de.christianscheb.partyprojector.model;
 
 public class Settings {
 

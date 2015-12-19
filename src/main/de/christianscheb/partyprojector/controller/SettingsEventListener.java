@@ -1,7 +1,7 @@
-package de.christianscheb.partywall.controller;
+package de.christianscheb.partyprojector.controller;
 
-import de.christianscheb.partywall.model.ProjectorSettings;
-import de.christianscheb.partywall.model.TickerStyle;
+import de.christianscheb.partyprojector.model.ProjectorSettings;
+import de.christianscheb.partyprojector.model.TickerStyle;
 
 public interface SettingsEventListener {
 
