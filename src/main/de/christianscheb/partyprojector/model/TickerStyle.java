@@ -2,34 +2,36 @@ package de.christianscheb.partyprojector.model;
 
 import javafx.scene.paint.Color;
 
-public class TickerStyle {
+import java.io.Serializable;
 
-    private Color backgroundColor;
-    private Color textColor;
+public class TickerStyle implements Serializable {
+
+    private SerializableColor backgroundColor;
+    private SerializableColor textColor;
 
     public TickerStyle() {
-        backgroundColor = Color.WHITE;
-        textColor = Color.BLACK;
+        backgroundColor = new SerializableColor(Color.RED);
+        textColor = new SerializableColor(Color.BLACK);
     }
 
     public TickerStyle(Color backgroundColor, Color textColor) {
-        this.backgroundColor = backgroundColor;
-        this.textColor = textColor;
+        this.backgroundColor = new SerializableColor(backgroundColor);
+        this.textColor = new SerializableColor(textColor);
     }
 
     public Color getBackgroundColor() {
-        return backgroundColor;
+        return backgroundColor.getFxColor();
     }
 
     public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
+        this.backgroundColor = new SerializableColor(backgroundColor);
     }
 
     public Color getTextColor() {
-        return textColor;
+        return textColor.getFxColor();
     }
 
     public void setTextColor(Color textColor) {
-        this.textColor = textColor;
+        this.textColor = new SerializableColor(textColor);
     }
 }

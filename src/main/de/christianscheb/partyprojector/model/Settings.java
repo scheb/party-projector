@@ -1,15 +1,17 @@
 package de.christianscheb.partyprojector.model;
 
-public class Settings {
+import java.io.Serializable;
+
+public class Settings implements Serializable {
 
     private ProjectorSettings projectorSettings;
-    private String tickerMessage = null;
-    private boolean projectorWindowStarted = false;
+    private String tickerMessage;
+    private transient boolean projectorWindowStarted = false;
     private TickerStyle tickerStyle;
 
 
     public Settings() {
-        projectorSettings = new ProjectorSettings(0, 0, 1920, 1080);
+        projectorSettings = new ProjectorSettings(0, 0, 800, 600);
         tickerStyle = new TickerStyle();
     }
 

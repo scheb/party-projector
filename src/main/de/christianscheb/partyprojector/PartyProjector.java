@@ -16,7 +16,8 @@ public class PartyProjector extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        MainController controller = new MainController(primaryStage, new SettingsModel());
+        SettingsModel settingsModel = new SettingsModel();
+        MainController controller = new MainController(primaryStage, settingsModel);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Settings.fxml"));
         loader.setController(controller.getSettingsController());
         Parent root = loader.load();
@@ -27,6 +28,10 @@ public class PartyProjector extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.setOnCloseRequest(e -> Platform.exit());
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() { settingsModel.persistSettings(); }
+        });
     }
 
     public static void main(String[] args) {

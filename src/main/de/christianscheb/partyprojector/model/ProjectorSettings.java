@@ -1,6 +1,8 @@
 package de.christianscheb.partyprojector.model;
 
-public class ProjectorSettings {
+import java.io.Serializable;
+
+public class ProjectorSettings implements Serializable {
 
     private int posX = 0;
     private int posY = 0;
