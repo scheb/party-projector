@@ -7,6 +7,7 @@ import de.christianscheb.partyprojector.model.TickerStyle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -14,19 +15,15 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class MainController implements SettingsEventListener {
-
-    private final Stage primaryStage;
     private final Settings settings;
     private SettingsController settingsController;
     private ProjectorController projectorController;
     private Stage projectorStage;
 
-    public MainController(Stage primaryStage, SettingsModel settingsModel) {
-        this.primaryStage = primaryStage;
+    public MainController(SettingsModel settingsModel) {
         settings = settingsModel.getSettings();
         settingsController = new SettingsController(settingsModel.getSettings());
         settingsController.addEventListener(this);
-        projectorController = new ProjectorController();
     }
 
     public SettingsController getSettingsController() {
@@ -47,11 +44,11 @@ public class MainController implements SettingsEventListener {
     private void showProjectorWindow() {
         Stage projectorStage = new Stage();
         projectorStage.initStyle(StageStyle.TRANSPARENT);
-        projectorStage.initOwner(primaryStage);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projector.fxml"));
+        projectorController = new ProjectorController(settings);
         loader.setController(projectorController);
-        Parent root = null;
+        Parent root;
         try {
             root = loader.load();
         } catch (IOException e) {
@@ -67,7 +64,9 @@ public class MainController implements SettingsEventListener {
         this.projectorStage.setAlwaysOnTop(true);
         updateProjectorSettings(settings.getProjectorSettings());
         this.projectorStage.setTitle("Projector");
+        this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream("/application.png")));
         this.projectorStage.show();
+        projectorController.play();
     }
 
     private void updateProjectorSettings(ProjectorSettings projectorSettings) {

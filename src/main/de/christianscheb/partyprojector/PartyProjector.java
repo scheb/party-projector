@@ -17,7 +17,7 @@ public class PartyProjector extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         SettingsModel settingsModel = new SettingsModel();
-        MainController controller = new MainController(primaryStage, settingsModel);
+        MainController controller = new MainController(settingsModel);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Settings.fxml"));
         loader.setController(controller.getSettingsController());
         Parent root = loader.load();
