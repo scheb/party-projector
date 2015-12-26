@@ -30,6 +30,8 @@ public class SettingsController implements Initializable {
     @FXML private Button exitButton;
     @FXML private ColorPicker messageBackgroundColor;
     @FXML private ColorPicker messageTextColor;
+    @FXML private ComboBox fontFamily;
+    @FXML private Spinner fontSize;
 
     public SettingsController(Settings settings) {
         this.settings = settings;
@@ -46,16 +48,26 @@ public class SettingsController implements Initializable {
     }
 
     private void configureView() {
-        configureFocusListener(posX);
-        configureFocusListener(posY);
-        configureFocusListener(sizeWidth);
-        configureFocusListener(sizeHeight);
+        fontFamily.getItems().addAll(
+                "Arial",
+                "Tahoma",
+                "Verdana",
+                "Comic Sans MS"
+        );
+        fontFamily.setValue(settings.getTickerStyle().getFontFamily());
+        fontSize.getValueFactory().setValue(settings.getTickerStyle().getFontSize());
 
         ProjectorSettings projectorSettings = settings.getProjectorSettings();
         posX.getValueFactory().setValue(projectorSettings.getPosX());
         posY.getValueFactory().setValue(projectorSettings.getPosY());
         sizeWidth.getValueFactory().setValue(projectorSettings.getWidth());
         sizeHeight.getValueFactory().setValue(projectorSettings.getHeight());
+
+        configureFocusListener(posX);
+        configureFocusListener(posY);
+        configureFocusListener(sizeWidth);
+        configureFocusListener(sizeHeight);
+        configureFocusListener(fontSize);
 
         messageTickerField.setText(settings.getTickerMessage());
         messageTickerField.focusedProperty().addListener(o -> {
@@ -109,8 +121,10 @@ public class SettingsController implements Initializable {
         sizeWidth.valueProperty().addListener(o -> updateProjectorSettings());
         sizeHeight.valueProperty().addListener(o -> updateProjectorSettings());
         messageTickerField.textProperty().addListener(o -> updateTickerMessage());
-        messageBackgroundColor.valueProperty().addListener(o -> updateTickerColor());
-        messageTextColor.valueProperty().addListener(o -> updateTickerColor());
+        messageBackgroundColor.valueProperty().addListener(o -> updateTickerStyle());
+        messageTextColor.valueProperty().addListener(o -> updateTickerStyle());
+        fontFamily.valueProperty().addListener(o -> updateTickerStyle());
+        fontSize.valueProperty().addListener(o -> updateTickerStyle());
     }
 
     private void updateProjectorSettings() {
@@ -134,8 +148,8 @@ public class SettingsController implements Initializable {
         }
     }
 
-    private void updateTickerColor() {
-        TickerStyle tickerStyle = new TickerStyle(messageBackgroundColor.getValue(), messageTextColor.getValue());
+    private void updateTickerStyle() {
+        TickerStyle tickerStyle = new TickerStyle((String) fontFamily.getValue(), (int) fontSize.getValue(), messageBackgroundColor.getValue(), messageTextColor.getValue());
         settings.setTickerStyle(tickerStyle);
         if (eventListener != null) {
             eventListener.onTickerStyleUpdated(tickerStyle);

@@ -32,6 +32,7 @@ public class ProjectorController implements Initializable {
     }
 
     public void setTickerStyle(TickerStyle tickerStyle) {
+        messageTicker.setFont(tickerStyle.getFont());
         messageTicker.setBackgroundColor(settings.getTickerStyle().getBackgroundColor());
         messageTicker.setTextColor(settings.getTickerStyle().getTextColor());
     }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <TitledPane animated="false" collapsible="false" text="Projector Window">
             <content>
@@ -74,13 +73,22 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Ticker color" />
-                        <ColorPicker fx:id="messageBackgroundColor" editable="true" GridPane.columnIndex="1" />
-                        <Label text="Text color" GridPane.columnIndex="2" />
-                        <ColorPicker fx:id="messageTextColor" editable="true" GridPane.columnIndex="3" />
+                        <Label text="Background" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ColorPicker fx:id="messageBackgroundColor" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label text="Color" GridPane.rowIndex="1" />
+                        <ColorPicker fx:id="messageTextColor" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Font" />
+                        <ComboBox fx:id="fontFamily" GridPane.columnIndex="1" />
+                        <Label text="Size" GridPane.columnIndex="2" />
+                        <Spinner fx:id="fontSize" editable="true" maxWidth="70.0" minWidth="70.0" GridPane.columnIndex="3">
+                           <valueFactory>
+                              <SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="12" max="150" min="0" />
+                           </valueFactory>
+                        </Spinner>
                      </children>
                   </GridPane>
                     </children>

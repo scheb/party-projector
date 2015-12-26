@@ -1,11 +1,17 @@
 package de.christianscheb.partyprojector.model;
 
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.Serializable;
 
 public class TickerStyle implements Serializable {
 
+    public static final String DEFAULT_FONT_FAMILY = "Sans-Serif";
+    public static final int DEFAULT_FONT_SIZE = 48;
+
+    private String fontFamily = DEFAULT_FONT_FAMILY;
+    private int fontSize = DEFAULT_FONT_SIZE;
     private SerializableColor backgroundColor;
     private SerializableColor textColor;
 
@@ -14,9 +20,27 @@ public class TickerStyle implements Serializable {
         textColor = new SerializableColor(Color.BLACK);
     }
 
-    public TickerStyle(Color backgroundColor, Color textColor) {
+    public TickerStyle(String fontFamily, int fontSize, Color backgroundColor, Color textColor) {
+        this.fontFamily = fontFamily;
+        this.fontSize = fontSize;
         this.backgroundColor = new SerializableColor(backgroundColor);
         this.textColor = new SerializableColor(textColor);
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
+    }
+
+    public void setFontFamily(String fontFamily) {
+        this.fontFamily = fontFamily;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
     public Color getBackgroundColor() {
@@ -33,5 +57,9 @@ public class TickerStyle implements Serializable {
 
     public void setTextColor(Color textColor) {
         this.textColor = new SerializableColor(textColor);
+    }
+
+    public Font getFont() {
+        return new Font(fontFamily, fontSize);
     }
 }
