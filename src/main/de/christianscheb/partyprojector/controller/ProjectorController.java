@@ -27,10 +27,6 @@ public class ProjectorController implements Initializable {
         messageTicker.setMessageProvider(new MessageProvider());
     }
 
-    public void play() {
-        messageTicker.play();
-    }
-
     public void setTickerStyle(TickerStyle tickerStyle) {
         messageTicker.setFont(tickerStyle.getFont());
         messageTicker.setBackgroundColor(settings.getTickerStyle().getBackgroundColor());
@@ -39,5 +35,13 @@ public class ProjectorController implements Initializable {
 
     public void setTickerMessage(String message) {
 
+    }
+
+    public void startTicker() {
+        messageTicker.start();
+    }
+
+    public void stopTicker() {
+        messageTicker.stop();
     }
 }

@@ -1,16 +1,14 @@
 package de.christianscheb.partyprojector.view;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 public class MessageTicker extends Pane {
 
@@ -22,30 +20,49 @@ public class MessageTicker extends Pane {
     private Font font = new Font(DEFAULT_FONT_FAMILY, DEFAULT_FONT_SIZE);
     private Color backgroundColor = Color.WHITE;
     private Color textColor = Color.BLACK;
-    private Timeline timeline;
+    private AnimationTimer timer;
 
     public MessageTicker() {
         setStyle("-fx-background-color: #" + backgroundColor.toString().substring(2));
 
         textFlow = new HBox();
-        textFlow.setSpacing(font.getSize() * 2);
+        textFlow.setSpacing(getMessageSpacing());
         textFlow.setPadding(new Insets(5, 0, 5, 0));
         textFlow.setCache(true);
         textFlow.setCacheShape(true);
         textFlow.setCacheHint(CacheHint.SPEED);
-        textFlow.layoutBoundsProperty().addListener(e -> {
-            System.out.println(textFlow.getLayoutBounds());
-            animate();
-        });
         getChildren().add(textFlow);
+
+        timer = new AnimationTimer() {
+            public long lastUpdate = 0 ;
+            @Override
+            public void handle(long time) {
+                if (lastUpdate > 0) {
+                    long elapsedNanos = time - lastUpdate;
+                    double elapsedSeconds = elapsedNanos / 1_000_000_000.0;
+                    onAnimationFrame(elapsedSeconds);
+                }
+                lastUpdate = time;
+            }
+
+            @Override
+            public void stop() {
+                lastUpdate = 0;
+                super.stop();
+            }
+        };
+    }
+
+    public void start() {
+        timer.start();
+    }
+
+    public void stop() {
+        timer.stop();
     }
 
     public void setMessageProvider(MessageProviderInterface messageProvider) {
         this.messageProvider = messageProvider;
-    }
-
-    public void play() {
-        addMessages();
     }
 
     private void addMessages() {
@@ -60,21 +77,50 @@ public class MessageTicker extends Pane {
         }
     }
 
-    private void animate() {
-        if (timeline != null) {
-            timeline.stop();
+    private void onAnimationFrame(double elapsedSeconds) {
+        animate(elapsedSeconds);
+        if (canRemoveElementOnTheLeft()) {
+            removeElementOnTheLeft();
+        }
+        if (addElementOnTheRight()) {
+            addMessages();
+        }
+    }
+
+    private void animate(double elapsedSeconds) {
+        if (getTextWidth() <= getViewWidth()) {
+            textFlow.setTranslateX(0);
+            return;
         }
 
-        double currentXPosition = textFlow.getTranslateX();
-        KeyValue initkv = new KeyValue(textFlow.translateXProperty(), currentXPosition);
-        KeyFrame initkf = new KeyFrame(Duration.ZERO, initkv);
+        textFlow.setTranslateX(textFlow.getTranslateX() - getScrollSpeed() * elapsedSeconds);
+    }
 
-        KeyValue endkv = new KeyValue(textFlow.translateXProperty(), currentXPosition - getScrollSpeed() * 10);
-        KeyFrame endkf = new KeyFrame(Duration.seconds(10), endkv);
+    private boolean canRemoveElementOnTheLeft() {
+        if (textFlow.getChildren().size() == 0) {
+            return false;
+        }
 
-        timeline = new Timeline(initkf, endkf);
-        timeline.play();
-        timeline.setOnFinished(e -> animate());
+        Node firstElement = textFlow.getChildren().get(0);
+        double firstElementWidth = firstElement.getLayoutBounds().getWidth();
+        double translateX = Math.abs(textFlow.getTranslateX());
+        return firstElementWidth + textFlow.getSpacing() < translateX;
+    }
+
+    private void removeElementOnTheLeft() {
+        if (textFlow.getChildren().size() == 0) {
+            return;
+        }
+
+        Node firstElement = textFlow.getChildren().get(0);
+        double firstElementWidth = firstElement.getLayoutBounds().getWidth();
+        textFlow.setTranslateX(textFlow.getTranslateX() + firstElementWidth + getMessageSpacing());
+        textFlow.getChildren().remove(0);
+    }
+
+    private boolean addElementOnTheRight() {
+        double translateX = textFlow.getTranslateX();
+        return getTextWidth() + translateX < getViewWidth();
     }
 
     private Label createTextElement(String text) {
@@ -87,7 +133,7 @@ public class MessageTicker extends Pane {
     public void setFont(Font font) {
         this.font = font;
         textFlow.getChildren().stream().filter(message -> message instanceof Label).forEach(message -> ((Label) message).setFont(font));
-
+        textFlow.setSpacing(getMessageSpacing());
     }
 
     public void setBackgroundColor(Color backgroundColor) {
@@ -100,7 +146,19 @@ public class MessageTicker extends Pane {
         textFlow.getChildren().stream().filter(message -> message instanceof Label).forEach(message -> ((Label) message).setTextFill(textColor));
     }
 
-    public double getScrollSpeed() {
+    private double getScrollSpeed() {
         return font.getSize() * 2;
+    }
+
+    private double getMessageSpacing() {
+        return font.getSize() * 3;
+    }
+
+    public double getTextWidth() {
+        return textFlow.getLayoutBounds().getWidth();
+    }
+
+    public double getViewWidth() {
+        return getLayoutBounds().getWidth();
     }
 }

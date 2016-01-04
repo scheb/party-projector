@@ -66,7 +66,7 @@ public class MainController implements SettingsEventListener {
         this.projectorStage.setTitle("Projector");
         this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream("/application.png")));
         this.projectorStage.show();
-        projectorController.play();
+        projectorController.startTicker();
     }
 
     private void updateProjectorSettings(ProjectorSettings projectorSettings) {
@@ -77,6 +77,7 @@ public class MainController implements SettingsEventListener {
     }
 
     private void closeProjectorWindow() {
+        projectorController.stopTicker();
         projectorStage.close();
         projectorStage = null;
         projectorController = null;
