@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -60,11 +61,18 @@
                 <VBox prefHeight="0.0" prefWidth="598.0">
                     <children>
                         <Label text="Enter a message to show up in the ticker regularly:" />
-                          <TextField fx:id="messageTickerField">
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                                <TextField fx:id="messageTickerField" prefHeight="25.0" prefWidth="517.0">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></TextField>
+                        <Button fx:id="updateMessageButton" mnemonicParsing="false" text="Update" />
+                     </children>
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
-                  </TextField>
+                  </HBox>
                   <GridPane>
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="40.0" />

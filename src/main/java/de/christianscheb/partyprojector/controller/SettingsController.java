@@ -25,6 +25,7 @@ public class SettingsController implements Initializable {
     @FXML private Spinner sizeHeight;
     @FXML private Button projectorUpdateButton;
     @FXML private TextField messageTickerField;
+    @FXML private Button updateMessageButton;
     @FXML private Button messageSendButton;
     @FXML private Button toggleProjectorButton;
     @FXML private Button exitButton;
@@ -120,7 +121,7 @@ public class SettingsController implements Initializable {
         posY.valueProperty().addListener(o -> updateProjectorSettings());
         sizeWidth.valueProperty().addListener(o -> updateProjectorSettings());
         sizeHeight.valueProperty().addListener(o -> updateProjectorSettings());
-        messageTickerField.textProperty().addListener(o -> updateTickerMessage());
+        updateMessageButton.setOnMouseClicked(e -> updateTickerMessage());
         messageBackgroundColor.valueProperty().addListener(o -> updateTickerStyle());
         messageTextColor.valueProperty().addListener(o -> updateTickerStyle());
         fontFamily.valueProperty().addListener(o -> updateTickerStyle());
