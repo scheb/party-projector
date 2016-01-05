@@ -1,8 +1,14 @@
 package de.christianscheb.partyprojector.model;
 
-import java.io.Serializable;
+import org.ini4j.Wini;
 
-public class ProjectorSettings implements Serializable {
+public class ProjectorSettings implements IniSerializable {
+
+    public static final String INI_SECTION_PROJECTOR = "projector";
+    public static final String INI_VALUE_POSX = "posX";
+    public static final String INI_VALUE_POSY = "posY";
+    public static final String INI_VALUE_WIDTH = "width";
+    public static final String INI_VALUE_HEIGHT = "height";
 
     private int posX = 0;
     private int posY = 0;
@@ -14,6 +20,22 @@ public class ProjectorSettings implements Serializable {
         this.posY = posY;
         this.width = width;
         this.height = height;
+    }
+
+    @Override
+    public void serialize(Wini ini) {
+        ini.put(INI_SECTION_PROJECTOR, INI_VALUE_POSX, posX);
+        ini.put(INI_SECTION_PROJECTOR, INI_VALUE_POSY, posY);
+        ini.put(INI_SECTION_PROJECTOR, INI_VALUE_WIDTH, width);
+        ini.put(INI_SECTION_PROJECTOR, INI_VALUE_HEIGHT, height);
+    }
+
+    @Override
+    public void unserialize(Wini ini) {
+        posX = ini.get(INI_SECTION_PROJECTOR, INI_VALUE_POSX, int.class);
+        posY = ini.get(INI_SECTION_PROJECTOR, INI_VALUE_POSY, int.class);
+        width = ini.get(INI_SECTION_PROJECTOR, INI_VALUE_WIDTH, int.class);
+        height = ini.get(INI_SECTION_PROJECTOR, INI_VALUE_HEIGHT, int.class);
     }
 
     public int getPosX() {

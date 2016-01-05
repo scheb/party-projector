@@ -13,5 +13,6 @@ dependencies {
     compile (
         [group: 'org.nanohttpd', name: 'nanohttpd', version: '2.2.0'],
         [group: 'org.nanohttpd', name: 'nanohttpd-nanolets', version: '2.2.0'],
+        [group: 'org.ini4j', name: 'ini4j', version: '0.5.4'],
     )
 }

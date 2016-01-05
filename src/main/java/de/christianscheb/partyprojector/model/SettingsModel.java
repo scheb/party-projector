@@ -1,11 +1,13 @@
 package de.christianscheb.partyprojector.model;
 
+import org.ini4j.Wini;
+
 import java.awt.*;
 import java.io.*;
 
 public class SettingsModel {
 
-    public static final String SETTINGS_FILE = "settings.dat";
+    public static final String SETTINGS_FILE = "settings.ini";
     private Settings settings;
 
     public SettingsModel() {
@@ -13,29 +15,24 @@ public class SettingsModel {
     }
 
     private Settings loadSettings() {
+        Wini ini;
         try {
-            FileInputStream in = new FileInputStream(SETTINGS_FILE);
-            ObjectInputStream ins = new ObjectInputStream(in);
-            Settings settings = (Settings)ins.readObject();
-            in.close();
+            ini = new Wini(new File(SETTINGS_FILE));
+            Settings settings = new Settings();
+            settings.unserialize(ini);
             return settings;
-        } catch (FileNotFoundException e) {
-            return getDefaultSettings();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return getDefaultSettings();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return getDefaultSettings();
         }
     }
 
     public void persistSettings() {
+        Wini ini;
         try {
-            FileOutputStream out = new FileOutputStream(SETTINGS_FILE);
-            ObjectOutputStream os = new ObjectOutputStream(out);
-            os.writeObject(settings);
-            out.close();
+            ini = new Wini(new File(SETTINGS_FILE));
+            settings.serialize(ini);
+            ini.store();
         } catch (IOException e) {
             e.printStackTrace();
         }
