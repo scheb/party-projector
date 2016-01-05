@@ -25,6 +25,7 @@ public class PartyProjector extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        messageStorage.setStaticMessage(settingsModel.getSettings().getTickerMessage());
         showSettingsWindow(primaryStage);
         startWebServer();
 
