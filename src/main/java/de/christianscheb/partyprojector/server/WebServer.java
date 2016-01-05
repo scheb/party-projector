@@ -11,10 +11,8 @@ import fi.iki.elonen.router.RouterNanoHTTPD;
 
 public class WebServer extends RouterNanoHTTPD {
 
-    private static final int PORT = 8080;
-
-    public WebServer(MessageStorage messageStorage) throws IOException {
-        super(PORT);
+    public WebServer(int port, MessageStorage messageStorage) throws IOException {
+        super(port);
         addRoute("/", new HomepageHandler());
         addRoute("/message", new MessageHandler(messageStorage));
         addRoute("/picture", new PictureHandler());

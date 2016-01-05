@@ -2,6 +2,7 @@ package de.christianscheb.partyprojector;
 
 import de.christianscheb.partyprojector.controller.MainController;
 import de.christianscheb.partyprojector.model.MessageStorage;
+import de.christianscheb.partyprojector.model.Settings;
 import de.christianscheb.partyprojector.model.SettingsModel;
 import de.christianscheb.partyprojector.server.WebServer;
 import fi.iki.elonen.util.ServerRunner;
@@ -25,9 +26,13 @@ public class PartyProjector extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        messageStorage.setStaticMessage(settingsModel.getSettings().getTickerMessage());
+        Settings settings = settingsModel.getSettings();
+
+        // Initially set the ticker message
+        messageStorage.setStaticMessage(settings.getTickerMessage());
+
         showSettingsWindow(primaryStage);
-        startWebServer();
+        startWebServer(settings.getWebserverPort());
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -49,9 +54,9 @@ public class PartyProjector extends Application {
         primaryStage.setOnCloseRequest(e -> Platform.exit());
     }
 
-    private void startWebServer() {
+    private void startWebServer(int port) {
         try {
-            webserver = new WebServer(messageStorage);
+            webserver = new WebServer(port, messageStorage);
         } catch (IOException ioe) {
             System.err.println("Couldn't start webserver:\n" + ioe);
         }

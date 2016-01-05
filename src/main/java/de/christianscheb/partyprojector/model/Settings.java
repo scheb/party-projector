@@ -4,15 +4,17 @@ import java.io.Serializable;
 
 public class Settings implements Serializable {
 
+    private static final int DEFAULT_WEBSERVER_PORT = 8080;
     private ProjectorSettings projectorSettings;
     private String tickerMessage;
     private transient boolean projectorWindowStarted = false;
     private TickerStyle tickerStyle;
-
+    private int webserverPort;
 
     public Settings() {
         projectorSettings = new ProjectorSettings(0, 0, 800, 600);
         tickerStyle = new TickerStyle();
+        webserverPort = DEFAULT_WEBSERVER_PORT;
     }
 
     public ProjectorSettings getProjectorSettings() {
@@ -45,5 +47,13 @@ public class Settings implements Serializable {
 
     public void setTickerStyle(TickerStyle tickerStyle) {
         this.tickerStyle = tickerStyle;
+    }
+
+    public int getWebserverPort() {
+        return webserverPort;
+    }
+
+    public void setWebserverPort(int webserverPort) {
+        this.webserverPort = webserverPort;
     }
 }
