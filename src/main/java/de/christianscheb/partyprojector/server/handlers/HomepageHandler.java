@@ -7,12 +7,12 @@ public class HomepageHandler extends RouterNanoHTTPD.DefaultHandler {
 
     @Override
     public String getText() {
-        return "Party Projector Web Service";
+        return "<h1>Party Projector Web Service</h1>";
     }
 
     @Override
     public String getMimeType() {
-        return "text/plain";
+        return "text/html";
     }
 
     @Override
