@@ -31,7 +31,6 @@ public class MainController implements SettingsEventListener {
 
     @Override
     public void onToggleProjector(boolean projectorActive) {
-        System.out.println("onToggleProjector");
         if (projectorStage != null) {
             closeProjectorWindow();
         }
