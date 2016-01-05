@@ -1,0 +1,17 @@
+group 'de.christianscheb'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile (
+        [group: 'org.nanohttpd', name: 'nanohttpd', version: '2.2.0'],
+        [group: 'org.nanohttpd', name: 'nanohttpd-nanolets', version: '2.2.0'],
+    )
+}
