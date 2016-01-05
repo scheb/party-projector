@@ -1,9 +1,6 @@
 package de.christianscheb.partyprojector.controller;
 
-import de.christianscheb.partyprojector.model.ProjectorSettings;
-import de.christianscheb.partyprojector.model.Settings;
-import de.christianscheb.partyprojector.model.SettingsModel;
-import de.christianscheb.partyprojector.model.TickerStyle;
+import de.christianscheb.partyprojector.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,12 +13,14 @@ import java.io.IOException;
 
 public class MainController implements SettingsEventListener {
     private final Settings settings;
+    private final MessageStorage messageStorage;
     private SettingsController settingsController;
     private ProjectorController projectorController;
     private Stage projectorStage;
 
-    public MainController(SettingsModel settingsModel) {
+    public MainController(SettingsModel settingsModel, MessageStorage messageStorage) {
         settings = settingsModel.getSettings();
+        this.messageStorage = messageStorage;
         settingsController = new SettingsController(settingsModel.getSettings());
         settingsController.addEventListener(this);
     }
@@ -46,7 +45,7 @@ public class MainController implements SettingsEventListener {
         projectorStage.initStyle(StageStyle.TRANSPARENT);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projector.fxml"));
-        projectorController = new ProjectorController(settings);
+        projectorController = new ProjectorController(settings, messageStorage);
         loader.setController(projectorController);
         Parent root;
         try {
@@ -98,7 +97,7 @@ public class MainController implements SettingsEventListener {
             return;
         }
 
-        projectorController.setTickerMessage(text);
+        messageStorage.setStaticMessage(text);
     }
 
     @Override

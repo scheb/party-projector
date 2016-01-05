@@ -1,7 +1,10 @@
 package de.christianscheb.partyprojector;
 
 import de.christianscheb.partyprojector.controller.MainController;
+import de.christianscheb.partyprojector.model.MessageStorage;
 import de.christianscheb.partyprojector.model.SettingsModel;
+import de.christianscheb.partyprojector.server.WebServer;
+import fi.iki.elonen.util.ServerRunner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -10,28 +13,54 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class PartyProjector extends Application {
 
-    public static final String APPLICATION_TITLE = "Party Wall";
+    private static final String APPLICATION_TITLE = "Party Wall";
+    public static final String APPLICATION_ICON = "/application.png";
+    private SettingsModel settingsModel = new SettingsModel();
+    private MessageStorage messageStorage = new MessageStorage();
+    private WebServer webserver;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        SettingsModel settingsModel = new SettingsModel();
-        MainController controller = new MainController(settingsModel);
+        showSettingsWindow(primaryStage);
+        startWebServer();
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() { shutdown(); }
+        });
+    }
+
+    private void showSettingsWindow(Stage primaryStage) throws IOException {
+        MainController controller = new MainController(settingsModel, messageStorage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Settings.fxml"));
         loader.setController(controller.getSettingsController());
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setTitle(APPLICATION_TITLE);
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/application.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(APPLICATION_ICON)));
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.setOnCloseRequest(e -> Platform.exit());
+    }
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() { settingsModel.persistSettings(); }
-        });
+    private void startWebServer() {
+        try {
+            webserver = new WebServer(messageStorage);
+        } catch (IOException ioe) {
+            System.err.println("Couldn't start webserver:\n" + ioe);
+        }
+    }
+
+    private void shutdown() {
+        settingsModel.persistSettings();
+        if (webserver != null) {
+            webserver.stop();
+        }
     }
 
     public static void main(String[] args) {
