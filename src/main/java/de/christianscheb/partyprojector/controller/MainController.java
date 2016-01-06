@@ -1,5 +1,6 @@
 package de.christianscheb.partyprojector.controller;
 
+import de.christianscheb.partyprojector.PartyProjector;
 import de.christianscheb.partyprojector.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -64,7 +65,7 @@ public class MainController implements SettingsEventListener {
         this.projectorStage.setAlwaysOnTop(true);
         updateProjectorSettings(settings.getProjectorSettings());
         this.projectorStage.setTitle("Projector");
-        this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream("/application.png")));
+        this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream(PartyProjector.APPLICATION_ICON)));
         this.projectorStage.show();
         projectorController.start();
     }
