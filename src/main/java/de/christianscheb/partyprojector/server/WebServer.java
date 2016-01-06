@@ -14,6 +14,7 @@ public class WebServer extends RouterNanoHTTPD {
 
     public WebServer(int port, MessageStorage messageStorage, PictureStorage pictureStorage) throws IOException {
         super(port);
+        setTempFileManagerFactory(new LocalTempFileManagerFactory());
         addRoute("/", new HomepageHandler());
         addRoute("/message", new MessageHandler(messageStorage));
         addRoute("/picture", new PictureHandler(pictureStorage));
