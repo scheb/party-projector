@@ -23,7 +23,7 @@ public class MessageTicker extends Pane {
     private AnimationTimer timer;
 
     public MessageTicker() {
-        setStyle("-fx-background-color: #" + backgroundColor.toString().substring(2));
+        setBackgroundColor(this.backgroundColor);
 
         textFlow = new HBox();
         textFlow.setSpacing(getMessageSpacing());
