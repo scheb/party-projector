@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
+<?import de.christianscheb.partyprojector.view.*?>
 
-<?import de.christianscheb.partyprojector.view.MessageTicker?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;"
             xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <MessageTicker fx:id="messageTicker" style="-fx-background-color: white;" BorderPane.alignment="CENTER"/>
+        <MessageTicker fx:id="messageTicker" BorderPane.alignment="CENTER"/>
     </top>
     <center>
-        <Pane fx:id="picturePane" BorderPane.alignment="CENTER"/>
+        <PictureSlideshow fx:id="pictureSlideshow" BorderPane.alignment="CENTER"/>
     </center>
 </BorderPane>

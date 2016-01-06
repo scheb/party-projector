@@ -1,13 +1,14 @@
 package de.christianscheb.partyprojector.controller;
 
 import de.christianscheb.partyprojector.model.MessageStorage;
+import de.christianscheb.partyprojector.model.PictureStorage;
 import de.christianscheb.partyprojector.model.Settings;
 import de.christianscheb.partyprojector.model.TickerStyle;
 import de.christianscheb.partyprojector.view.MessageProviderInterface;
 import de.christianscheb.partyprojector.view.MessageTicker;
+import de.christianscheb.partyprojector.view.PictureSlideshow;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,19 +16,22 @@ import java.util.ResourceBundle;
 public class ProjectorController implements Initializable {
 
     private final Settings settings;
+    private final PictureStorage pictureStorage;
     private MessageProviderInterface messageStorage;
     @FXML private MessageTicker messageTicker;
-    @FXML private Pane picturePane;
+    @FXML private PictureSlideshow pictureSlideshow;
 
-    public ProjectorController(Settings settings, MessageStorage messageStorage) {
+    public ProjectorController(Settings settings, MessageStorage messageStorage, PictureStorage pictureStorage) {
         this.settings = settings;
         this.messageStorage = messageStorage;
+        this.pictureStorage = pictureStorage;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setTickerStyle(settings.getTickerStyle());
         messageTicker.setMessageProvider(messageStorage);
+        pictureSlideshow.setPictureProvider(pictureStorage);
     }
 
     public void setTickerStyle(TickerStyle tickerStyle) {
@@ -36,11 +40,13 @@ public class ProjectorController implements Initializable {
         messageTicker.setTextColor(settings.getTickerStyle().getTextColor());
     }
 
-    public void startTicker() {
+    public void start() {
         messageTicker.start();
+        pictureSlideshow.start();
     }
 
-    public void stopTicker() {
+    public void stop() {
         messageTicker.stop();
+        pictureSlideshow.stop();
     }
 }

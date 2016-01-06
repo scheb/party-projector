@@ -14,13 +14,15 @@ import java.io.IOException;
 public class MainController implements SettingsEventListener {
     private final Settings settings;
     private final MessageStorage messageStorage;
+    private final PictureStorage pictureStorage;
     private SettingsController settingsController;
     private ProjectorController projectorController;
     private Stage projectorStage;
 
-    public MainController(SettingsModel settingsModel, MessageStorage messageStorage) {
+    public MainController(SettingsModel settingsModel, MessageStorage messageStorage, PictureStorage pictureStorage) {
         settings = settingsModel.getSettings();
         this.messageStorage = messageStorage;
+        this.pictureStorage = pictureStorage;
         settingsController = new SettingsController(settingsModel.getSettings());
         settingsController.addEventListener(this);
     }
@@ -44,7 +46,7 @@ public class MainController implements SettingsEventListener {
         projectorStage.initStyle(StageStyle.TRANSPARENT);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projector.fxml"));
-        projectorController = new ProjectorController(settings, messageStorage);
+        projectorController = new ProjectorController(settings, messageStorage, pictureStorage);
         loader.setController(projectorController);
         Parent root;
         try {
@@ -64,7 +66,7 @@ public class MainController implements SettingsEventListener {
         this.projectorStage.setTitle("Projector");
         this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream("/application.png")));
         this.projectorStage.show();
-        projectorController.startTicker();
+        projectorController.start();
     }
 
     private void updateProjectorSettings(ProjectorSettings projectorSettings) {
@@ -75,7 +77,7 @@ public class MainController implements SettingsEventListener {
     }
 
     private void closeProjectorWindow() {
-        projectorController.stopTicker();
+        projectorController.stop();
         projectorStage.close();
         projectorStage = null;
         projectorController = null;
