@@ -2,10 +2,10 @@ package de.christianscheb.partyprojector;
 
 import de.christianscheb.partyprojector.controller.MainController;
 import de.christianscheb.partyprojector.model.MessageStorage;
+import de.christianscheb.partyprojector.model.PictureStorage;
 import de.christianscheb.partyprojector.model.Settings;
 import de.christianscheb.partyprojector.model.SettingsModel;
 import de.christianscheb.partyprojector.server.WebServer;
-import fi.iki.elonen.util.ServerRunner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +22,7 @@ public class PartyProjector extends Application {
     public static final String APPLICATION_ICON = "/application.png";
     private SettingsModel settingsModel = new SettingsModel();
     private MessageStorage messageStorage = new MessageStorage();
+    private PictureStorage pictureStorage = new PictureStorage();
     private WebServer webserver;
 
     @Override
@@ -56,7 +57,7 @@ public class PartyProjector extends Application {
 
     private void startWebServer(int port) {
         try {
-            webserver = new WebServer(port, messageStorage);
+            webserver = new WebServer(port, messageStorage, pictureStorage);
         } catch (IOException ioe) {
             System.err.println("Couldn't start webserver:\n" + ioe);
         }
