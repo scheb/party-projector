@@ -67,6 +67,7 @@ public class MainController implements SettingsEventListener {
         this.projectorStage.setTitle("Projector");
         this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream(PartyProjector.APPLICATION_ICON)));
         this.projectorStage.show();
+        this.projectorStage.setOnCloseRequest(e -> closeProjectorWindow());
         projectorController.start();
     }
 
@@ -82,6 +83,7 @@ public class MainController implements SettingsEventListener {
         projectorStage.close();
         projectorStage = null;
         projectorController = null;
+        settings.setProjectorWindowStarted(false);
     }
 
     @Override

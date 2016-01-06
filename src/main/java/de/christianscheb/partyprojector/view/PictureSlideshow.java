@@ -78,8 +78,10 @@ public class PictureSlideshow extends Pane {
 
     public void stop() {
         picturePolling.stop();
-        animation.stop();
-        animation = null;
+        if (animation != null) {
+            animation.stop();
+            animation = null;
+        }
     }
 
     public void setPictureProvider(PictureStorage pictureProvider) {
