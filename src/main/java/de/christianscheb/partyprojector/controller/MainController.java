@@ -58,7 +58,7 @@ public class MainController implements SettingsEventListener {
         }
 
         Scene scene = new Scene(root, 300, 250);
-        scene.setFill(new Color(1, 0, 0, 0.2));
+        scene.setFill(Color.TRANSPARENT);
         this.projectorStage = projectorStage;
         this.projectorStage.setScene(scene);
         this.projectorStage.setResizable(false);
