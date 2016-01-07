@@ -15,10 +15,10 @@ public class MessageStorage implements MessageProviderInterface {
 
     public void addMessage(String text) {
         if (messages.size() == MAX_MESSAGES) {
-            messages.remove(0);
+            messages.remove(MAX_MESSAGES - 1);
         }
 
-        messages.add(text);
+        messages.add(0, text);
     }
 
     @Override
