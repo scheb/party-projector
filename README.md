@@ -5,6 +5,8 @@ Display messages and pictures from party guests on a projector screen.
 
 Except for the message ticker the screen is transparent, so you can run videos/animations in the background.
 
+Related Android app: [scheb/party-projector-app](https://github.com/scheb/party-projector-app)
+
 ## Web API
 
 The applications runs a web server (default port 8080, can be configured in settings.ini), which provides a
