@@ -1,5 +1,7 @@
-/out
+/.gradle
 /*.iml
 /.idea
 /settings.ini
 /pictures
+/gradle
+/build
