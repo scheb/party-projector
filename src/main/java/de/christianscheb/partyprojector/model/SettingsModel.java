@@ -16,8 +16,13 @@ public class SettingsModel {
 
     private Settings loadSettings() {
         Wini ini;
+        File settingsFile = new File(SETTINGS_FILE);
+        if (!settingsFile.exists()) {
+            return getDefaultSettings();
+        }
+
         try {
-            ini = new Wini(new File(SETTINGS_FILE));
+            ini = new Wini(settingsFile);
             Settings settings = new Settings();
             settings.unserialize(ini);
             return settings;
