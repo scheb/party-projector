@@ -9,6 +9,21 @@ repositories {
     jcenter()
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.christianscheb.partyprojector.PartyProjector'
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'de.christianscheb.partyprojector.PartyProjector'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 dependencies {
     compile (
         [group: 'org.nanohttpd', name: 'nanohttpd', version: '2.2.0'],
