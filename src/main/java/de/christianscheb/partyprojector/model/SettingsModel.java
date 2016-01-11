@@ -30,7 +30,13 @@ public class SettingsModel {
     public void persistSettings() {
         Wini ini;
         try {
-            ini = new Wini(new File(SETTINGS_FILE));
+            File settingsFile = new File(SETTINGS_FILE);
+            if (!settingsFile.exists()) {
+                if (!settingsFile.createNewFile()) {
+                    throw new IOException("Could not create settings file " + settingsFile.getAbsolutePath());
+                }
+            }
+            ini = new Wini(settingsFile);
             settings.serialize(ini);
             ini.store();
         } catch (IOException e) {
