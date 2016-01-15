@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 public class PictureHandler extends RouterNanoHTTPD.DefaultHandler {
 
@@ -24,7 +25,7 @@ public class PictureHandler extends RouterNanoHTTPD.DefaultHandler {
             session.parseBody(files);
             if (files.containsKey("picture")) {
                 String location = files.get("picture");
-                FileInputStream stream = new FileInputStream(location);
+                GZIPInputStream stream = new GZIPInputStream(new FileInputStream(location));
                 pictureStorage.addImage(stream);
                 stream.close();
 
