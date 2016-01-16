@@ -2,13 +2,25 @@
 
 <?import javafx.scene.layout.*?>
 <?import de.christianscheb.partyprojector.view.*?>
+<?import javafx.scene.image.ImageView?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;"
-            xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.Image?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <MessageTicker fx:id="messageTicker" BorderPane.alignment="CENTER"/>
+        <MessageTicker fx:id="messageTicker" BorderPane.alignment="CENTER" />
     </top>
     <center>
-        <PictureSlideshow fx:id="pictureSlideshow" BorderPane.alignment="CENTER"/>
+        <StackPane BorderPane.alignment="CENTER">
+            <PictureSlideshow fx:id="pictureSlideshow" />
+            <AnchorPane>
+                <children>
+                    <ImageView fitHeight="150.0" fitWidth="150.0" preserveRatio="true" AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0" opacity="0.4">
+                        <image>
+                            <Image url="@/branding/aggi-tv.png" backgroundLoading="true" />
+                        </image>
+                    </ImageView>
+                </children>
+            </AnchorPane>
+        </StackPane>
     </center>
 </BorderPane>
