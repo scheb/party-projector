@@ -70,11 +70,9 @@ public class MessageTicker extends Pane {
             return;
         }
 
-        String[] messages = messageProvider.getMessages();
-        for (String message : messages) {
-            Label messageLabel = createTextElement(message);
-            textFlow.getChildren().add(messageLabel);
-        }
+        String message = messageProvider.getMessage();
+        Label messageLabel = createTextElement(message);
+        textFlow.getChildren().add(messageLabel);
     }
 
     private void onAnimationFrame(double elapsedSeconds) {
