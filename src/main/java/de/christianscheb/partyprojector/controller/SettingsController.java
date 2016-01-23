@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.StringConverter;
 
 import java.net.URL;
@@ -53,7 +55,11 @@ public class SettingsController implements Initializable {
                 "Arial",
                 "Tahoma",
                 "Verdana",
-                "Comic Sans MS"
+                "Comic Sans MS",
+                "Roboto Condensed",
+                "Roboto Medium",
+                "Roboto Black",
+                "Frutiger LT 57 Cn"
         );
         fontFamily.setValue(settings.getTickerStyle().getFontFamily());
         fontSize.getValueFactory().setValue(settings.getTickerStyle().getFontSize());
@@ -121,6 +127,7 @@ public class SettingsController implements Initializable {
         posY.valueProperty().addListener(o -> updateProjectorSettings());
         sizeWidth.valueProperty().addListener(o -> updateProjectorSettings());
         sizeHeight.valueProperty().addListener(o -> updateProjectorSettings());
+        messageTickerField.setOnKeyPressed(e -> onKeyPressed(e));
         updateMessageButton.setOnMouseClicked(e -> updateTickerMessage());
         messageBackgroundColor.valueProperty().addListener(o -> updateTickerStyle());
         messageTextColor.valueProperty().addListener(o -> updateTickerStyle());
@@ -128,12 +135,18 @@ public class SettingsController implements Initializable {
         fontSize.valueProperty().addListener(o -> updateTickerStyle());
     }
 
+    private void onKeyPressed(KeyEvent evt) {
+        if (evt.getCode().equals(KeyCode.ENTER)) {
+            updateTickerMessage();
+        }
+    }
+
     private void updateProjectorSettings() {
         ProjectorSettings projectorSettings = new ProjectorSettings(
-            (int) posX.getValue(),
-            (int) posY.getValue(),
-            (int) sizeWidth.getValue(),
-            (int) sizeHeight.getValue()
+                (int) posX.getValue(),
+                (int) posY.getValue(),
+                (int) sizeWidth.getValue(),
+                (int) sizeHeight.getValue()
         );
         settings.setProjectorSettings(projectorSettings);
         if (eventListener != null) {
