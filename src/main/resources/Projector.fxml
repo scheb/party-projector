@@ -13,13 +13,9 @@
         <StackPane BorderPane.alignment="CENTER">
             <PictureSlideshow fx:id="pictureSlideshow" />
             <AnchorPane>
-                <children>
-                    <ImageView fitHeight="150.0" fitWidth="150.0" preserveRatio="true" AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0" opacity="0.4">
-                        <image>
-                            <Image url="@/branding/aggi-tv.png" backgroundLoading="true" />
-                        </image>
-                    </ImageView>
-                </children>
+                <ImageView fitHeight="100.0" fitWidth="100.0" preserveRatio="true" AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0" opacity="0.4">
+                    <Image url="@/branding/aggi-tv.png" backgroundLoading="true" />
+                </ImageView>
             </AnchorPane>
         </StackPane>
     </center>
