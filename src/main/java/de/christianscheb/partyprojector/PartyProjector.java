@@ -1,10 +1,7 @@
 package de.christianscheb.partyprojector;
 
 import de.christianscheb.partyprojector.controller.MainController;
-import de.christianscheb.partyprojector.model.MessageStorage;
-import de.christianscheb.partyprojector.model.PictureStorage;
-import de.christianscheb.partyprojector.model.Settings;
-import de.christianscheb.partyprojector.model.SettingsModel;
+import de.christianscheb.partyprojector.model.*;
 import de.christianscheb.partyprojector.server.WebServer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -23,6 +20,7 @@ public class PartyProjector extends Application {
     private SettingsModel settingsModel = new SettingsModel();
     private MessageStorage messageStorage = new MessageStorage();
     private PictureStorage pictureStorage = new PictureStorage();
+    private StreamModel streamModel = new StreamModel();
     private WebServer webserver;
 
     @Override
@@ -57,7 +55,7 @@ public class PartyProjector extends Application {
 
     private void startWebServer(int port) {
         try {
-            webserver = new WebServer(port, messageStorage, pictureStorage);
+            webserver = new WebServer(port, messageStorage, pictureStorage, streamModel);
         } catch (IOException ioe) {
             System.err.println("Couldn't start webserver:\n" + ioe);
         }
