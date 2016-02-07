@@ -4,6 +4,7 @@ import de.christianscheb.partyprojector.model.MessageStorage;
 import de.christianscheb.partyprojector.model.PictureStorage;
 import de.christianscheb.partyprojector.model.Settings;
 import de.christianscheb.partyprojector.model.TickerStyle;
+import de.christianscheb.partyprojector.view.VideoStream;
 import de.christianscheb.partyprojector.view.MessageProviderInterface;
 import de.christianscheb.partyprojector.view.MessageTicker;
 import de.christianscheb.partyprojector.view.PictureSlideshow;
@@ -20,6 +21,7 @@ public class ProjectorController implements Initializable {
     private MessageProviderInterface messageStorage;
     @FXML private MessageTicker messageTicker;
     @FXML private PictureSlideshow pictureSlideshow;
+    @FXML public VideoStream videoStream;
 
     public ProjectorController(Settings settings, MessageStorage messageStorage, PictureStorage pictureStorage) {
         this.settings = settings;
@@ -43,10 +45,12 @@ public class ProjectorController implements Initializable {
     public void start() {
         messageTicker.start();
         pictureSlideshow.start();
+        videoStream.startVideoStream("192.168.1.101");
     }
 
     public void stop() {
         messageTicker.stop();
         pictureSlideshow.stop();
+        videoStream.stop();
     }
 }

@@ -12,6 +12,7 @@
     <center>
         <StackPane BorderPane.alignment="CENTER">
             <PictureSlideshow fx:id="pictureSlideshow" />
+            <VideoStream fx:id="videoStream" />
             <AnchorPane>
                 <ImageView fitHeight="100.0" fitWidth="100.0" preserveRatio="true" AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0" opacity="0.4">
                     <Image url="@/branding/aggi-tv.png" backgroundLoading="true" />
