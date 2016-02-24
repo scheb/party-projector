@@ -1,9 +1,11 @@
 package de.christianscheb.partyprojector.view;
 
 import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamException;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDeviceRegistry;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDriver;
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
+import de.christianscheb.partyprojector.model.StreamModel;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -21,6 +23,7 @@ public class VideoStream extends Pane {
         Webcam.setDriver(new IpCamDriver());
     }
 
+    private StreamModel streamModel;
     private ImageView cameraImageView;
     private Webcam webCam;
     private Thread updateImageThread;
@@ -30,6 +33,20 @@ public class VideoStream extends Pane {
     private BufferedImage grabbedImage;
     private BufferedImage bufferedImagePrevious;
 
+    public void setStreamModel(StreamModel streamModel) {
+        this.streamModel = streamModel;
+
+        String streamIp = streamModel.getStreamIp();
+        if (streamIp != null) {
+            startVideoStream(streamIp);
+        }
+
+        streamModel.addObserver((o, arg) -> {
+            String streamIpNew = streamModel.getStreamIp();
+            Platform.runLater(() -> startVideoStream(streamIpNew));
+        });
+    }
+
     private void createImageView() {
         cameraImageView = new ImageView();
         cameraImageView.setPreserveRatio(false);
@@ -38,11 +55,13 @@ public class VideoStream extends Pane {
         getChildren().add(cameraImageView);
     }
 
-    public void startVideoStream(String ip) {
+    private void startVideoStream(String ip) {
         if(connectWebCam(ip)) {
             createImageView();
             isStopped = false;
             startGrabImage();
+        } else {
+            streamModel.releaseStream();
         }
     }
 
@@ -103,6 +122,9 @@ public class VideoStream extends Pane {
             IpCamDeviceRegistry.register(ip, "http://" + ip + ":8089", IpCamMode.PUSH);
             webCam = Webcam.getWebcams().get(0);
             webCam.open();
+        } catch (WebcamException e) {
+            e.printStackTrace();
+            return false;
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return false;
@@ -137,6 +159,9 @@ public class VideoStream extends Pane {
         disconnectedTime = 0;
         grabbedImage = null;
         bufferedImagePrevious = null;
+
+        // Release the stream for next stream
+        streamModel.releaseStream();
 
         System.gc();
     }

@@ -40,7 +40,7 @@ public class PartyProjector extends Application {
     }
 
     private void showSettingsWindow(Stage primaryStage) throws IOException {
-        MainController controller = new MainController(settingsModel, messageStorage, pictureStorage);
+        MainController controller = new MainController(settingsModel, messageStorage, pictureStorage, streamModel);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Settings.fxml"));
         loader.setController(controller.getSettingsController());
         Parent root = loader.load();

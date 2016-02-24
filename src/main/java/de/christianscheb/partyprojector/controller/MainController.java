@@ -16,14 +16,16 @@ public class MainController implements SettingsEventListener {
     private final Settings settings;
     private final MessageStorage messageStorage;
     private final PictureStorage pictureStorage;
+    private final StreamModel streamModel;
     private SettingsController settingsController;
     private ProjectorController projectorController;
     private Stage projectorStage;
 
-    public MainController(SettingsModel settingsModel, MessageStorage messageStorage, PictureStorage pictureStorage) {
+    public MainController(SettingsModel settingsModel, MessageStorage messageStorage, PictureStorage pictureStorage, StreamModel streamModel) {
         settings = settingsModel.getSettings();
         this.messageStorage = messageStorage;
         this.pictureStorage = pictureStorage;
+        this.streamModel = streamModel;
         settingsController = new SettingsController(settingsModel.getSettings());
         settingsController.addEventListener(this);
     }
@@ -47,7 +49,7 @@ public class MainController implements SettingsEventListener {
         projectorStage.initStyle(StageStyle.TRANSPARENT);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projector.fxml"));
-        projectorController = new ProjectorController(settings, messageStorage, pictureStorage);
+        projectorController = new ProjectorController(settings, messageStorage, pictureStorage, streamModel);
         loader.setController(projectorController);
         Parent root;
         try {

@@ -17,11 +17,12 @@ public class VideoStreamHandler extends RouterNanoHTTPD.DefaultHandler {
     @Override
     public NanoHTTPD.Response get(RouterNanoHTTPD.UriResource uriResource, Map<String, String> urlParams, NanoHTTPD.IHTTPSession session) {
         String clientIp = session.getHeaders().get("remote-addr");
-        if (streamModel.canStream()) {
+        if (clientIp != null) {
             try {
                 streamModel.startStream(clientIp);
                 return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, getMimeType(), JsonResponse.SUCCESS_RESPONSE);
-            } catch (Exception ignored) {
+            } catch (InterruptedException ignored) {
+                return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, getMimeType(), JsonResponse.FAILURE_RESPONSE);
             }
         }
 

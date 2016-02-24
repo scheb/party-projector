@@ -1,9 +1,6 @@
 package de.christianscheb.partyprojector.controller;
 
-import de.christianscheb.partyprojector.model.MessageStorage;
-import de.christianscheb.partyprojector.model.PictureStorage;
-import de.christianscheb.partyprojector.model.Settings;
-import de.christianscheb.partyprojector.model.TickerStyle;
+import de.christianscheb.partyprojector.model.*;
 import de.christianscheb.partyprojector.view.VideoStream;
 import de.christianscheb.partyprojector.view.MessageProviderInterface;
 import de.christianscheb.partyprojector.view.MessageTicker;
@@ -18,15 +15,17 @@ public class ProjectorController implements Initializable {
 
     private final Settings settings;
     private final PictureStorage pictureStorage;
+    private final StreamModel streamModel;
     private MessageProviderInterface messageStorage;
     @FXML private MessageTicker messageTicker;
     @FXML private PictureSlideshow pictureSlideshow;
     @FXML public VideoStream videoStream;
 
-    public ProjectorController(Settings settings, MessageStorage messageStorage, PictureStorage pictureStorage) {
+    public ProjectorController(Settings settings, MessageStorage messageStorage, PictureStorage pictureStorage, StreamModel streamModel) {
         this.settings = settings;
         this.messageStorage = messageStorage;
         this.pictureStorage = pictureStorage;
+        this.streamModel = streamModel;
     }
 
     @Override
@@ -34,6 +33,7 @@ public class ProjectorController implements Initializable {
         setTickerStyle(settings.getTickerStyle());
         messageTicker.setMessageProvider(messageStorage);
         pictureSlideshow.setPictureProvider(pictureStorage);
+        videoStream.setStreamModel(streamModel);
     }
 
     public void setTickerStyle(TickerStyle tickerStyle) {
@@ -45,7 +45,6 @@ public class ProjectorController implements Initializable {
     public void start() {
         messageTicker.start();
         pictureSlideshow.start();
-        videoStream.startVideoStream("192.168.1.101");
     }
 
     public void stop() {
