@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 
 public class VideoStream extends Pane {
 
-    private static final int MAX_DISCONNECT_TIME = 10;
+    private static final int MAX_DISCONNECT_FRAMES = 20;
 
     static {
         Webcam.setDriver(new IpCamDriver());
@@ -84,7 +84,7 @@ public class VideoStream extends Pane {
                                 disconnectedTime = 0;
                             }
                         }
-                        if (disconnectedTime > MAX_DISCONNECT_TIME) {
+                        if (disconnectedTime > MAX_DISCONNECT_FRAMES) {
                             endWebCamStream();
                             return;
                         }
