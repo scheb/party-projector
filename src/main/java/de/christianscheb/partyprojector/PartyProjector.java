@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class PartyProjector extends Application {
 
-    private static final String APPLICATION_TITLE = "Party Wall";
+    private static final String APPLICATION_TITLE = "Party Projector";
     public static final String APPLICATION_ICON = "/application.png";
     private SettingsModel settingsModel = new SettingsModel();
     private MessageStorage messageStorage = new MessageStorage();
