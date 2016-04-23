@@ -188,7 +188,8 @@ public class RouterNanoHTTPD extends NanoHTTPD {
                     pathArray.add(s);
             }
 
-            return pathArray.toArray(new String[pathArray.size()]);
+            return pathArray.toArray(new String[]{});
+
         }
 
         @Override
@@ -301,7 +302,7 @@ public class RouterNanoHTTPD extends NanoHTTPD {
 
     public static String normalizeUri(String value) {
         if (value == null) {
-            return null;
+            return value;
         }
         if (value.startsWith("/")) {
             value = value.substring(1);
@@ -317,7 +318,7 @@ public class RouterNanoHTTPD extends NanoHTTPD {
 
         private static final Pattern PARAM_PATTERN = Pattern.compile("(?<=(^|/)):[a-zA-Z0-9_-]+(?=(/|$))");
 
-        private static final String PARAM_MATCHER = "([A-Za-z0-9\\-\\._~:/?#\\[\\]@!\\$&'\\(\\)\\*\\+,;=]+)";
+        private static final String PARAM_MATCHER = "([A-Za-z0-9\\-\\._~:/?#\\[\\]@!\\$&'\\(\\)\\*\\+,;=\\s]+)";
 
         private static final Map<String, String> EMPTY = Collections.unmodifiableMap(new HashMap<String, String>());
 
@@ -554,10 +555,15 @@ public class RouterNanoHTTPD extends NanoHTTPD {
 
     }
 
-    protected UriRouter router;
+    private UriRouter router;
 
     public RouterNanoHTTPD(int port) {
         super(port);
+        router = new UriRouter();
+    }
+
+    public RouterNanoHTTPD(String hostname, int port) {
+        super(hostname, port);
         router = new UriRouter();
     }
 
