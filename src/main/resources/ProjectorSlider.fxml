@@ -7,9 +7,6 @@
 <?import javafx.scene.image.Image?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
-        <MessageTicker fx:id="messageTicker" BorderPane.alignment="CENTER" />
-    </top>
-    <center>
         <StackPane BorderPane.alignment="CENTER">
             <PictureSlideshow fx:id="pictureSlideshow" />
             <VideoStream fx:id="videoStream" />
@@ -19,5 +16,5 @@
                 </ImageView>
             </AnchorPane>
         </StackPane>
-    </center>
+    </top>
 </BorderPane>

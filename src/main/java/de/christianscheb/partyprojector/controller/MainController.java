@@ -1,16 +1,7 @@
 package de.christianscheb.partyprojector.controller;
 
-import de.christianscheb.partyprojector.PartyProjector;
 import de.christianscheb.partyprojector.model.*;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.io.IOException;
+import de.christianscheb.partyprojector.view.ProjectorWindow;
 
 public class MainController implements SettingsEventListener {
     private final Settings settings;
@@ -19,7 +10,7 @@ public class MainController implements SettingsEventListener {
     private final StreamModel streamModel;
     private SettingsController settingsController;
     private ProjectorController projectorController;
-    private Stage projectorStage;
+    private ProjectorWindow projectorWindow;
 
     public MainController(SettingsModel settingsModel, MessageStorage messageStorage, PictureStorage pictureStorage, StreamModel streamModel) {
         settings = settingsModel.getSettings();
@@ -36,82 +27,50 @@ public class MainController implements SettingsEventListener {
 
     @Override
     public void onToggleProjector(boolean projectorActive) {
-        if (projectorStage != null) {
-            closeProjectorWindow();
-        }
-        if (projectorActive) {
+        if (projectorWindow == null) {
             showProjectorWindow();
+        } else {
+            closeProjectorWindow();
         }
     }
 
     private void showProjectorWindow() {
-        Stage projectorStage = new Stage();
-        projectorStage.initStyle(StageStyle.TRANSPARENT);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Projector.fxml"));
         projectorController = new ProjectorController(settings, messageStorage, pictureStorage, streamModel);
-        loader.setController(projectorController);
-        Parent root;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        Scene scene = new Scene(root, 300, 250);
-        scene.setFill(Color.TRANSPARENT);
-        this.projectorStage = projectorStage;
-        this.projectorStage.setScene(scene);
-        this.projectorStage.setResizable(false);
-        this.projectorStage.setAlwaysOnTop(true);
+        projectorWindow = new ProjectorWindow(projectorController);
+        projectorWindow.showProjectorWindow();
         updateProjectorSettings(settings.getProjectorSettings());
-        this.projectorStage.setTitle("Projector");
-        this.projectorStage.getIcons().add(new Image(getClass().getResourceAsStream(PartyProjector.APPLICATION_ICON)));
-        this.projectorStage.show();
-        this.projectorStage.setOnCloseRequest(e -> closeProjectorWindow());
-        projectorController.start();
     }
 
     private void updateProjectorSettings(ProjectorSettings projectorSettings) {
-        projectorStage.setWidth(projectorSettings.getWidth());
-        projectorStage.setHeight(projectorSettings.getHeight());
-        projectorStage.setX(projectorSettings.getPosX());
-        projectorStage.setY(projectorSettings.getPosY());
+        projectorWindow.updateProjectorSettings(projectorSettings);
     }
 
     private void closeProjectorWindow() {
         projectorController.stop();
-        projectorStage.close();
-        projectorStage = null;
+        projectorWindow.closeProjectorWindow();
+        projectorWindow = null;
         projectorController = null;
         settings.setProjectorWindowStarted(false);
     }
 
     @Override
     public void onProjectorSettingsUpdated(ProjectorSettings projectorSettings) {
-        if (projectorStage == null) {
-            return;
+        if (projectorWindow != null) {
+            updateProjectorSettings(projectorSettings);
         }
-
-        updateProjectorSettings(projectorSettings);
     }
 
     @Override
     public void onTickerMessageUpdated(String text) {
-        if (projectorStage == null) {
-            return;
+        if (projectorController != null) {
+            messageStorage.setStaticMessage(text);
         }
-
-        messageStorage.setStaticMessage(text);
     }
 
     @Override
     public void onTickerStyleUpdated(TickerStyle tickerStyle) {
-        if (projectorStage == null) {
-            return;
+        if (projectorController != null) {
+            projectorController.setTickerStyle(tickerStyle);
         }
-
-        projectorController.setTickerStyle(tickerStyle);
     }
 }
