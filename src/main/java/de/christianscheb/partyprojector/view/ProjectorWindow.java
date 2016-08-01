@@ -18,14 +18,17 @@ public class ProjectorWindow {
     private ProjectorController projectorController;
     private Stage tickerStage;
     private Stage sliderStage;
+    private ProjectorSettings projectorSettings;
 
     public ProjectorWindow(ProjectorController projectorController) {
         this.projectorController = projectorController;
     }
 
-    public void showProjectorWindow() {
+    public void showProjectorWindow(ProjectorSettings projectorSettings) {
         showTickerProjectorWindow();
         showSliderProjectorWindow();
+        registerStagePositionListeners();
+        updateProjectorSettings(projectorSettings);
 
         tickerStage.show();
         sliderStage.show();
@@ -80,16 +83,30 @@ public class ProjectorWindow {
         sliderStage.setOnCloseRequest(e -> closeProjectorWindow());
     }
 
+    private void registerStagePositionListeners() {
+        tickerStage.heightProperty().addListener((observable, oldValue, newValue) -> updateSliderStageLayout());
+        tickerStage.yProperty().addListener((observable, oldValue, newValue) -> updateSliderStageLayout());
+    }
+
+    private void updateSliderStageLayout() {
+        double tickerStageHeight = tickerStage.getHeight();
+        double sliderStageY = projectorSettings.getPosY() + tickerStageHeight;
+        double sliderStageHeight = projectorSettings.getHeight() - tickerStageHeight;
+        sliderStage.setY(sliderStageY);
+        sliderStage.setHeight(sliderStageHeight);
+    }
+
     public void updateProjectorSettings(ProjectorSettings projectorSettings) {
+        this.projectorSettings = projectorSettings;
+
         tickerStage.setWidth(projectorSettings.getWidth());
-        tickerStage.setHeight(-1);
         tickerStage.setX(projectorSettings.getPosX());
         tickerStage.setY(projectorSettings.getPosY());
 
         sliderStage.setWidth(projectorSettings.getWidth());
-        sliderStage.setHeight(-1);
         sliderStage.setX(projectorSettings.getPosX());
-        sliderStage.setY(projectorSettings.getPosY());
+
+        updateSliderStageLayout();
     }
 
     public void closeProjectorWindow() {

@@ -37,8 +37,7 @@ public class MainController implements SettingsEventListener {
     private void showProjectorWindow() {
         projectorController = new ProjectorController(settings, messageStorage, pictureStorage, streamModel);
         projectorWindow = new ProjectorWindow(projectorController);
-        projectorWindow.showProjectorWindow();
-        updateProjectorSettings(settings.getProjectorSettings());
+        projectorWindow.showProjectorWindow(settings.getProjectorSettings());
     }
 
     private void updateProjectorSettings(ProjectorSettings projectorSettings) {
