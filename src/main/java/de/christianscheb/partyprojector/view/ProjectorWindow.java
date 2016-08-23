@@ -31,7 +31,6 @@ public class ProjectorWindow {
         updateProjectorSettings(projectorSettings);
 
         tickerStage.show();
-        sliderStage.show();
 
         projectorController.start();
     }
@@ -60,8 +59,8 @@ public class ProjectorWindow {
     }
 
     private void showSliderProjectorWindow() {
-        sliderStage = new Stage();
-        sliderStage.initStyle(StageStyle.TRANSPARENT);
+        sliderStage = new SwitchStage();
+        sliderStage.initStyle(StageStyle.UNDECORATED);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ProjectorSlider.fxml"));
         loader.setController(projectorController.getSliderController());
@@ -74,7 +73,7 @@ public class ProjectorWindow {
         }
 
         Scene tickerScene = new Scene(root, 0, 0);
-        tickerScene.setFill(Color.TRANSPARENT);
+        tickerScene.setFill(Color.rgb(50, 50, 50));
         sliderStage.setScene(tickerScene);
         sliderStage.setResizable(false);
         sliderStage.setAlwaysOnTop(true);

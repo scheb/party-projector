@@ -57,6 +57,8 @@ public class VideoStream extends Pane {
 
     private void startVideoStream(String ip) {
         if(connectWebCam(ip)) {
+            SwitchStage stage = (SwitchStage) getScene().getWindow();
+            stage.enable();
             createImageView();
             isStopped = false;
             startGrabImage();
@@ -152,6 +154,8 @@ public class VideoStream extends Pane {
         Platform.runLater(() -> {
             if (getChildren().size() > 0) {
                 getChildren().remove(cameraImageView);
+                SwitchStage stage = (SwitchStage) getScene().getWindow();
+                stage.disable();
             }
         });
 

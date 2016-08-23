@@ -4,6 +4,7 @@ import de.christianscheb.partyprojector.model.PictureStorage;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.CacheHint;
 import javafx.scene.effect.DropShadow;
@@ -11,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class PictureSlideshow extends Pane {
@@ -36,40 +38,45 @@ public class PictureSlideshow extends Pane {
     }
 
     private void showPicture(Image image) {
-        Bounds bounds = getLayoutBounds();
-        double preferredHeight = bounds.getHeight() * 0.9;
-        double posY = (bounds.getHeight() - preferredHeight) / 2;
+        SwitchStage stage = (SwitchStage) getScene().getWindow();
+        stage.enable();
 
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(preferredHeight);
-        imageView.setFitWidth(bounds.getWidth());
-        imageView.setPreserveRatio(true);
-        imageView.setCache(true);
-        imageView.setCacheHint(CacheHint.SPEED);
-        imageView.setY(posY);
+        Platform.runLater(() -> {
+            Bounds bounds = getLayoutBounds();
+            double preferredHeight = bounds.getHeight() * 0.9;
+            double posY = (bounds.getHeight() - preferredHeight) / 2;
 
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(posY / 3 * 2);
-        dropShadow.setOffsetX(posY / 3);
-        dropShadow.setOffsetY(posY / 3);
-        dropShadow.setColor(Color.BLACK);
-        imageView.setEffect(dropShadow);
+            ImageView imageView = new ImageView(image);
+            imageView.setFitHeight(preferredHeight);
+            imageView.setFitWidth(bounds.getWidth());
+            imageView.setPreserveRatio(true);
+            imageView.setCache(true);
+            imageView.setCacheHint(CacheHint.SPEED);
+            imageView.setY(posY);
 
-        getChildren().add(imageView);
-        double pictureWidth = imageView.getLayoutBounds().getWidth();
-        imageView.setTranslateX(-pictureWidth);
-        double middle = (bounds.getWidth() - pictureWidth) / 2;
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(posY / 3 * 2);
+            dropShadow.setOffsetX(posY / 3);
+            dropShadow.setOffsetY(posY / 3);
+            dropShadow.setColor(Color.BLACK);
+            imageView.setEffect(dropShadow);
 
-        animation = new Timeline();
-        KeyFrame kf1 = createKeyFrame(imageView, 0, imageView.getTranslateX());
-        KeyFrame kf2 = createKeyFrame(imageView, 400, middle * 1.3);
-        KeyFrame kf3 = createKeyFrame(imageView, 500, middle);
-        KeyFrame kf4 = createKeyFrame(imageView, 5000, middle);
-        KeyFrame kf5 = createKeyFrame(imageView, 5100, middle * 0.7);
-        KeyFrame kf6 = createKeyFrame(imageView, 5500, bounds.getWidth());
-        animation.getKeyFrames().addAll(kf1, kf2, kf3, kf4, kf5, kf6);
-        animation.setOnFinished(e -> resetAndShowNextPicture());
-        animation.play();
+            getChildren().add(imageView);
+            double pictureWidth = imageView.getLayoutBounds().getWidth();
+            imageView.setTranslateX(-pictureWidth);
+            double middle = (bounds.getWidth() - pictureWidth) / 2;
+
+            animation = new Timeline();
+            KeyFrame kf1 = createKeyFrame(imageView, 0, imageView.getTranslateX());
+            KeyFrame kf2 = createKeyFrame(imageView, 400, middle * 1.3);
+            KeyFrame kf3 = createKeyFrame(imageView, 500, middle);
+            KeyFrame kf4 = createKeyFrame(imageView, 5000, middle);
+            KeyFrame kf5 = createKeyFrame(imageView, 5100, middle * 0.7);
+            KeyFrame kf6 = createKeyFrame(imageView, 5500, bounds.getWidth());
+            animation.getKeyFrames().addAll(kf1, kf2, kf3, kf4, kf5, kf6);
+            animation.setOnFinished(e -> resetAndShowNextPicture());
+            animation.play();
+        });
     }
 
     private KeyFrame createKeyFrame(ImageView image, int millis, double position) {
@@ -84,6 +91,8 @@ public class PictureSlideshow extends Pane {
             showPicture(picture);
         } else {
             animation = null;
+            SwitchStage stage = (SwitchStage) getScene().getWindow();
+            stage.disable();
         }
     }
 
