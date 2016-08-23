@@ -2,19 +2,12 @@
 
 <?import javafx.scene.layout.*?>
 <?import de.christianscheb.partyprojector.view.*?>
-<?import javafx.scene.image.ImageView?>
 
-<?import javafx.scene.image.Image?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <StackPane>
             <PictureSlideshow fx:id="pictureSlideshow" prefHeight="Infinity" prefWidth="Infinity" />
             <VideoStream fx:id="videoStream" />
-            <AnchorPane>
-                <ImageView fitHeight="100.0" fitWidth="100.0" preserveRatio="true" AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0" opacity="0.4">
-                    <Image url="@/branding/aggi-tv.png" backgroundLoading="true" />
-                </ImageView>
-            </AnchorPane>
         </StackPane>
     </top>
 </BorderPane>
