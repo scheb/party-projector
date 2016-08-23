@@ -29,8 +29,8 @@ task fatJar(type: Jar) {
 
 dependencies {
     compile (
-        [group: 'org.nanohttpd', name: 'nanohttpd', version: '2.3.0'],
-        [group: 'org.nanohttpd', name: 'nanohttpd-nanolets', version: '2.3.0'],
+        [group: 'org.nanohttpd', name: 'nanohttpd', version: '2.2.0'],
+        [group: 'org.nanohttpd', name: 'nanohttpd-nanolets', version: '2.2.0'],
         [group: 'org.ini4j', name: 'ini4j', version: '0.5.4'],
         [group: 'com.github.sarxos', name: 'webcam-capture', version: '0.3.10'],
         [group: 'com.github.sarxos', name: 'webcam-capture-driver-ipcam', version: '0.3.10-RC7'],
