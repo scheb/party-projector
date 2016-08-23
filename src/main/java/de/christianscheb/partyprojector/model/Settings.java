@@ -9,7 +9,7 @@ public class Settings implements IniSerializable {
     public static final String INI_VALUE_MESSAGE = "message";
     public static final String INI_VALUE_PORT = "port";
 
-    private static final int DEFAULT_WEBSERVER_PORT = 8080;
+    private static final int DEFAULT_WEBSERVER_PORT = 8088;
 
     private ProjectorSettings projectorSettings;
     private TickerStyle tickerStyle;
